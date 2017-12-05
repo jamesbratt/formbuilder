@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
+import Textinput from './form-components/text-input'
 import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
   render() {
+    const props = {
+      placeholder: 'Type something...'
+    }
     return (
       <div className="App">
         <header className="App-header">
@@ -13,6 +17,7 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
+        <Textinput {...props} />
       </div>
     );
   }
