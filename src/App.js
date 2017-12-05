@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom'
 import Textinput from './form-components/text-input'
 import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
-  render() {
+  addField() {
     const props = {
-      placeholder: 'Type something...'
+      placeholder: 'Type here...'
     }
+    ReactDOM.render(
+      <Textinput {...props} />,
+      document.getElementById('form')
+    );
+  }
+
+  render() {
     return (
       <div className="App">
         <header className="App-header">
@@ -15,9 +23,10 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
+          To add more fields, click "Add New Field".
         </p>
-        <Textinput {...props} />
+        <button onClick={this.addField} className='btn-add'>Add New Field</button>
+        <div id='form'></div>
       </div>
     );
   }
