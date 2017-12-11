@@ -5,17 +5,33 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
-  addField() {
-    const props = {
-      placeholder: 'Type here...'
-    }
-    ReactDOM.render(
-      <Textinput {...props} />,
-      document.getElementById('form')
-    );
+
+  constructor(props) {
+    super(props);
+    this.fields = [];
+    this.state = {
+      fields: this.fields
+    };
+  }
+
+  addField = () => {
+    this.fields.push(this.fields.length + 1);
+    this.setState({
+      fields: this.fields
+    });
+  }
+
+  removeField = (key) => {
+    this.fields.splice(key, 1);
+    this.setState({
+      fields: this.fields
+    });
   }
 
   render() {
+    const props = {
+      onRemove: this.removeField,
+    }
     return (
       <div className="App">
         <header className="App-header">
@@ -26,7 +42,11 @@ class App extends Component {
           To add more fields, click "Add New Field".
         </p>
         <button onClick={this.addField} className='btn-add'>Add New Field</button>
-        <div id='form'></div>
+        <div id='form'>
+          {this.state.fields.map((field, i) =>
+            <Textinput key={i} id={i} placeholder={'this is id ' + i} {...props} />
+          )}
+        </div>
       </div>
     );
   }
