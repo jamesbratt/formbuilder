@@ -21,12 +21,12 @@ const boxSource = {
 	},
 
 	endDrag(props, monitor) {
-		const item = monitor.getItem()
-		const dropResult = monitor.getDropResult()
+    const dragIndex = monitor.getItem().index;
+    if(dragIndex === undefined)
+      // Add a new component
+      props.addComponent(props.name);
 
-		if (dropResult) {
-			alert(`You dropped ${item.name} into ${dropResult.name}!`) // eslint-disable-line no-alert
-		}
+    return
 	},
 }
 
@@ -37,20 +37,22 @@ function collect(connect, monitor) {
   }
 }
 
-class NewCard extends Component {
+class NewComponent extends Component {
 	static propTypes = {
 		connectDragSource: PropTypes.func.isRequired,
 		isDragging: PropTypes.bool.isRequired,
-		name: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    addContainer: PropTypes.func.isRequired,
 	}
 
 	render() {
 		const { isDragging, connectDragSource } = this.props
-		const { name } = this.props
+		const { label } = this.props
 		const opacity = isDragging ? 0.4 : 1
 
-		return connectDragSource(<div style={{ ...style, opacity }}>{name}</div>)
+		return connectDragSource(<div style={{ ...style, opacity }}>{label}</div>)
 	}
 }
 
-export default DragSource(ItemTypes.NEWCARD, boxSource, collect)(NewCard);
+export default DragSource(ItemTypes.NEWCOMPONENT, boxSource, collect)(NewComponent);

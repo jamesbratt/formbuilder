@@ -1,86 +1,113 @@
 import React, { Component } from 'react'
-import update from 'immutability-helper'
-import { DragDropContext } from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
-import Card from './Card'
-import NewCard from './NewCard'
+import PropTypes from 'prop-types'
+import { findDOMNode } from 'react-dom'
+import { DragSource, DropTarget } from 'react-dnd'
+import ItemTypes from './ItemTypes'
+import flow from 'lodash/flow';
 
 const style = {
-	width: 400,
+	border: '1px dashed gray',
+	padding: '0.5rem 1rem',
+	marginBottom: '.5rem',
+	backgroundColor: 'white',
+	cursor: 'move',
+}
+
+const cardSource = {
+	beginDrag(props) {
+		return {
+			id: props.id,
+			index: props.index,
+		}
+	},
+}
+
+const cardTarget = {
+	hover(props, monitor, component) {
+    const dragIndex = monitor.getItem().index
+
+    // If an item has no index it must be new
+    if(dragIndex === undefined) {
+      return
+  
+    } else {  
+      const hoverIndex = props.index
+
+      // Don't replace items with themselves
+      if (dragIndex === hoverIndex) {
+        return
+      }
+
+      // Determine rectangle on screen
+      const hoverBoundingRect = findDOMNode(component).getBoundingClientRect()
+
+      // Get vertical middle
+      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+
+      // Determine mouse position
+      const clientOffset = monitor.getClientOffset()
+
+      // Get pixels to the top
+      const hoverClientY = clientOffset.y - hoverBoundingRect.top
+
+      // Only perform the move when the mouse has crossed half of the items height
+      // When dragging downwards, only move when the cursor is below 50%
+      // When dragging upwards, only move when the cursor is above 50%
+
+      // Dragging downwards
+      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+        return
+      }
+
+      // Dragging upwards
+      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+        return
+      }
+
+      // Time to actually perform the action
+      props.moveContainer(dragIndex, hoverIndex)
+
+      // Note: we're mutating the monitor item here!
+      // Generally it's better to avoid mutations,
+      // but it's good here for the sake of performance
+      // to avoid expensive index searches.
+      monitor.getItem().index = hoverIndex
+    }
+	},
 }
 
 class Container extends Component {
-	constructor(props) {
-		super(props)
-		this.moveCard = this.moveCard.bind(this)
-		this.state = {
-			cards: [
-				{
-					id: 1,
-					text: 'Write a cool JS library',
-				},
-				{
-					id: 2,
-					text: 'Make it generic enough',
-				},
-				{
-					id: 3,
-					text: 'Write README',
-				},
-				{
-					id: 4,
-					text: 'Create some examples',
-				},
-				{
-					id: 5,
-					text:
-						'Spam in Twitter and IRC to promote it (note that this element is taller than the others)',
-				},
-				{
-					id: 6,
-					text: '???',
-				},
-				{
-					id: 7,
-					text: 'PROFIT',
-				},
-			],
-		}
-	}
-
-	moveCard(dragIndex, hoverIndex) {
-		const { cards } = this.state
-		const dragCard = cards[dragIndex]
-
-		this.setState(
-			update(this.state, {
-				cards: {
-					$splice: [[dragIndex, 1], [hoverIndex, 0, dragCard]],
-				},
-			}),
-		)
+	static propTypes = {
+		connectDragSource: PropTypes.func.isRequired,
+		connectDropTarget: PropTypes.func.isRequired,
+		index: PropTypes.number.isRequired,
+		isDragging: PropTypes.bool.isRequired,
+		id: PropTypes.any.isRequired,
+		name: PropTypes.string.isRequired,
+    moveContainer: PropTypes.func.isRequired,
 	}
 
 	render() {
-		const { cards } = this.state
+		const {
+			name,
+			isDragging,
+			connectDragSource,
+			connectDropTarget,
+		} = this.props
+		const opacity = isDragging ? 0 : 1
 
-		return (
-      <div>
-        <div style={style}>
-          {cards.map((card, i) => (
-            <Card
-              key={card.id}
-              index={i}
-              id={card.id}
-              text={card.text}
-              moveCard={this.moveCard}
-            />
-          ))}
-        </div>
-        <NewCard name="Paper" />
-      </div>
+		return connectDragSource(
+			connectDropTarget(<div style={{ ...style, opacity }}>{name}</div>),
 		)
 	}
 }
 
-export default DragDropContext(HTML5Backend)(Container);
+export default flow(
+	DropTarget([ItemTypes.CONTAINER, ItemTypes.NEWCOMPONENT], cardTarget, connect => ({
+		connectDropTarget: connect.dropTarget()
+	})),
+	DragSource(ItemTypes.CONTAINER, cardSource, (connect, monitor) => ({
+		connectDragSource: connect.dragSource(),
+		isDragging: monitor.isDragging()
+	}))
+)(Container);

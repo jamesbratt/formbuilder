@@ -1,4 +1,4 @@
 export default {
-  CARD: 'card',
-  NEWCARD: 'newcard',
+  CONTAINER: 'container',
+  NEWCOMPONENT: 'newcomponent',
 }
