@@ -6,6 +6,10 @@
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
 }
+input {
+  display: block;
+  margin: 0 auto;
+}
 
 .App-header {
   background-color: #222;
@@ -20,6 +24,10 @@
 
 .App-intro {
   font-size: large;
+}
+
+.btn-add {
+  margin:1em;
 }
 
 @keyframes App-logo-spin {
