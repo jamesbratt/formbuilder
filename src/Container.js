@@ -9,7 +9,6 @@ const style = {
 	border: '1px dashed gray',
 	padding: '0.5rem 1rem',
 	marginBottom: '.5rem',
-	backgroundColor: 'white',
 	cursor: 'move',
 }
 
@@ -85,6 +84,7 @@ class Container extends Component {
 		id: PropTypes.any.isRequired,
 		name: PropTypes.string.isRequired,
     moveContainer: PropTypes.func.isRequired,
+    isOver: PropTypes.bool.isRequired,
 	}
 
 	render() {
@@ -92,19 +92,27 @@ class Container extends Component {
 			name,
 			isDragging,
 			connectDragSource,
-			connectDropTarget,
+      connectDropTarget,
+      isOver,
 		} = this.props
-		const opacity = isDragging ? 0 : 1
+    const opacity = isDragging ? 0 : 1;
+    const isActive = isOver;
+
+    let backgroundColor = '#FFF'
+		if (isActive) {
+			backgroundColor = '#eeeeee'
+		}
 
 		return connectDragSource(
-			connectDropTarget(<div style={{ ...style, opacity }}>{name}</div>),
+			connectDropTarget(<div className='ui-container' style={{ ...style, opacity, backgroundColor }}>{name}</div>),
 		)
 	}
 }
 
 export default flow(
-	DropTarget([ItemTypes.CONTAINER, ItemTypes.NEWCOMPONENT], cardTarget, connect => ({
-		connectDropTarget: connect.dropTarget()
+	DropTarget([ItemTypes.CONTAINER, ItemTypes.NEWCOMPONENT], cardTarget, (connect, monitor) => ({
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver(),
 	})),
 	DragSource(ItemTypes.CONTAINER, cardSource, (connect, monitor) => ({
 		connectDragSource: connect.dragSource(),

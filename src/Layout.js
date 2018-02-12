@@ -38,7 +38,7 @@ class Layout extends Component {
 
     const newCard = {
       id: ++containers.length,
-      name: 'New ' + label,
+      name: 'Empty ' + label,
     };
 
 		this.setState(
