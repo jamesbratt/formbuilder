@@ -22,11 +22,16 @@ const cardSource = {
 }
 
 const cardTarget = {
+  drop(props, monitor, component) {
+    const newComponent = monitor.getItem();
+    const droppedOn = props.index;
+    props.addChild(newComponent, droppedOn)
+  },
 	hover(props, monitor, component) {
     const dragIndex = monitor.getItem().index
 
     // If an item has no index it must be new
-    if(dragIndex === undefined) {
+    if(dragIndex === undefined || dragIndex === null) {
       return
   
     } else {  
@@ -84,6 +89,7 @@ class Container extends Component {
 		id: PropTypes.any.isRequired,
 		name: PropTypes.string.isRequired,
     moveContainer: PropTypes.func.isRequired,
+    addChild: PropTypes.func.isRequired,
     isOver: PropTypes.bool.isRequired,
 	}
 

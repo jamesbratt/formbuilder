@@ -15,6 +15,7 @@ class Layout extends Component {
 		super(props)
     this.moveContainer = this.moveContainer.bind(this);
     this.addComponent = this.addComponent.bind(this);
+    this.addChild = this.addChild.bind(this);
 		this.state = {
 			containers: [],
 		}
@@ -31,6 +32,10 @@ class Layout extends Component {
 				},
 			}),
 		)
+  }
+
+  addChild(newChild, parent) {
+    return
   }
   
   addComponent(label) {
@@ -63,6 +68,7 @@ class Layout extends Component {
               id={container.id}
               name={container.name}
               moveContainer={this.moveContainer}
+              addChild={this.addChild}
             />
           ))}
         </div>
