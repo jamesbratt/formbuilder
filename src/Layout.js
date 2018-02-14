@@ -35,6 +35,7 @@ class Layout extends Component {
   }
 
   addChild(newChild, parent) {
+    console.log(newChild + ' added to ' + parent);
     return
   }
   
@@ -68,13 +69,12 @@ class Layout extends Component {
               id={container.id}
               name={container.name}
               moveContainer={this.moveContainer}
-              addChild={this.addChild}
             />
           ))}
         </div>
-        <NewComponent label="Add Container" name="Container" addComponent={this.addComponent} />
-        <NewComponent label="Add Row" name="Row" addComponent={this.addComponent} />
-        <NewComponent label="Add Column" name="Column" addComponent={this.addComponent} />
+        <NewComponent label="Add Container" name="Container" addComponent={this.addComponent} addChild={this.addChild} />
+        <NewComponent label="Add Row" name="Row" addComponent={this.addComponent} addChild={this.addChild} />
+        <NewComponent label="Add Column" name="Column" addComponent={this.addComponent} addChild={this.addChild} />
       </div>
 		)
 	}

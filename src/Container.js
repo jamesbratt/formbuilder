@@ -8,7 +8,7 @@ import flow from 'lodash/flow';
 const style = {
 	border: '1px dashed gray',
 	padding: '0.5rem 1rem',
-	marginBottom: '.5rem',
+	marginBottom: '2.5rem',
 	cursor: 'move',
 }
 
@@ -22,11 +22,11 @@ const cardSource = {
 }
 
 const cardTarget = {
-  drop(props, monitor, component) {
-    const newComponent = monitor.getItem();
+  drop(props, monitor) {
     const droppedOn = props.index;
-    props.addChild(newComponent, droppedOn)
-  },
+		return { parentId: droppedOn }
+	},
+
 	hover(props, monitor, component) {
     const dragIndex = monitor.getItem().index
 
@@ -89,7 +89,6 @@ class Container extends Component {
 		id: PropTypes.any.isRequired,
 		name: PropTypes.string.isRequired,
     moveContainer: PropTypes.func.isRequired,
-    addChild: PropTypes.func.isRequired,
     isOver: PropTypes.bool.isRequired,
 	}
 

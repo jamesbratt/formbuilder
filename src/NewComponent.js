@@ -21,9 +21,10 @@ const boxSource = {
 	},
 
 	endDrag(props, monitor) {
-    const dragIndex = monitor.getItem().index;
-    if(dragIndex === undefined)
-      // Add a new component
+    const dropResult = monitor.getDropResult()
+    if(dropResult && dropResult.parentId)
+      props.addChild(props.name, dropResult.parentId)
+    else
       props.addComponent(props.name);
 
     return
@@ -44,6 +45,7 @@ class NewComponent extends Component {
     name: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     addContainer: PropTypes.func.isRequired,
+    addChild: PropTypes.func.isRequired,
 	}
 
 	render() {
