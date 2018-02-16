@@ -23,7 +23,7 @@ const boxSource = {
 	endDrag(props, monitor) {
     const dropResult = monitor.getDropResult()
     if(dropResult && dropResult.parentId)
-      props.addChild(props.name, dropResult.parentId)
+      props.addChild(props.name, [dropResult.parentId, dropResult.index])
     else
       props.addComponent(props.name);
 

@@ -23,8 +23,11 @@ const cardSource = {
 
 const cardTarget = {
   drop(props, monitor) {
-    const droppedOn = props.index;
-		return { parentId: droppedOn }
+    const droppedOn = props.id;
+		return { 
+      parentId: droppedOn,
+      index: props.index 
+    }
 	},
 
 	hover(props, monitor, component) {
@@ -109,7 +112,7 @@ class Container extends Component {
 		}
 
 		return connectDragSource(
-			connectDropTarget(<div className='ui-container' style={{ ...style, opacity, backgroundColor }}>{name}</div>),
+			connectDropTarget(<div className='container' style={{ ...style, opacity, backgroundColor }}>{name}</div>),
 		)
 	}
 }

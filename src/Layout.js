@@ -6,7 +6,6 @@ import Container from './Container'
 import NewComponent from './NewComponent'
 
 const style = {
-  width: 400,
   'min-height': '100px'
 }
 
@@ -17,7 +16,8 @@ class Layout extends Component {
     this.addComponent = this.addComponent.bind(this);
     this.addChild = this.addChild.bind(this);
 		this.state = {
-			containers: [],
+      containers: [],
+      domStructure: {}
 		}
 	}
 
@@ -34,23 +34,45 @@ class Layout extends Component {
 		)
   }
 
+  uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
   addChild(newChild, parent) {
-    console.log(newChild + ' added to ' + parent);
-    return
+    const child = {
+      id: this.uuidv4(),
+      name: 'Empty ' + newChild,
+      parent: parent[0]
+    };
+
+    const { containers } = this.state
+		this.setState(
+			update(this.state, {
+				domStructure: {
+          $merge: {[child.id]: child}
+        },
+			}),
+		)
   }
   
   addComponent(label) {
     const { containers } = this.state
-
-    const newCard = {
-      id: ++containers.length,
+    const newComponent = {
+      id: this.uuidv4(),
       name: 'Empty ' + label,
+      parent: null
     };
 
 		this.setState(
 			update(this.state, {
+				domStructure: {
+          $merge: {[newComponent.id]: newComponent}
+        },
 				containers: {
-					$push: [newCard],
+          $push: [newComponent]
 				},
 			}),
 		)
@@ -60,7 +82,7 @@ class Layout extends Component {
 		const { containers } = this.state
 
 		return (
-      <div>
+      <div className="container">
         <div style={style}>
           {containers.map((container, i) => (
             <Container
