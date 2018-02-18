@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { toggleTodo } from '../actions'
 import update from 'immutability-helper'
 import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
@@ -7,6 +9,11 @@ import NewComponent from './NewComponent'
 
 const style = {
   'min-height': '100px'
+}
+
+const mapStateToProps = state => {
+  return {
+  }
 }
 
 class Layout extends Component {
@@ -19,7 +26,7 @@ class Layout extends Component {
       containers: [],
       domStructure: {}
 		}
-	}
+  }
 
 	moveContainer(dragIndex, hoverIndex) {
 		const { containers } = this.state
