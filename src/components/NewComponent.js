@@ -28,7 +28,7 @@ const componentSource = {
       props.addChild(props.name, [dropResult.parentId, dropResult.index])
     else
       props.addComponent(props.name);*/
-      props.dispatch(addContainer('Container'))
+      props.dispatch(addContainer(props.label))
 
     return
 	},

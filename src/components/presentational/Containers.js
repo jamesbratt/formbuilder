@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import SingleContainer from './SingleContainer'
 
 const style = {
-  'min-height': '400px'
+  minHeight: '400px'
 }
  
 const Containers = ({ containers }) => (
@@ -12,6 +12,7 @@ const Containers = ({ containers }) => (
           {containers.map((container, i) => (
             <SingleContainer
               index={i}
+              key={container.id}
               id={container.id}
               label={container.label}
             />
