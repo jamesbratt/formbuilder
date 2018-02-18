@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { DragSource } from 'react-dnd'
+import { connect } from 'react-redux'
+import { addContainer } from '../actions'
 import ItemTypes from '../ItemTypes'
 
 const style = {
@@ -13,7 +15,7 @@ const style = {
 	float: 'left',
 }
 
-const boxSource = {
+const componentSource = {
 	beginDrag(props) {
 		return {
 			name: props.name,
@@ -21,11 +23,12 @@ const boxSource = {
 	},
 
 	endDrag(props, monitor) {
-    const dropResult = monitor.getDropResult()
+    /*const dropResult = monitor.getDropResult()
     if(dropResult && dropResult.parentId)
       props.addChild(props.name, [dropResult.parentId, dropResult.index])
     else
-      props.addComponent(props.name);
+      props.addComponent(props.name);*/
+      props.dispatch(addContainer('Container'))
 
     return
 	},
@@ -40,13 +43,10 @@ function collect(connect, monitor) {
 
 class NewComponent extends Component {
 	static propTypes = {
-		connectDragSource: PropTypes.func.isRequired,
-		isDragging: PropTypes.bool.isRequired,
     name: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
-    addContainer: PropTypes.func.isRequired,
-    addChild: PropTypes.func.isRequired,
-	}
+    dispatch: PropTypes.func.isRequired,
+  }
 
 	render() {
 		const { isDragging, connectDragSource } = this.props
@@ -54,7 +54,9 @@ class NewComponent extends Component {
 		const opacity = isDragging ? 0.4 : 1
 
 		return connectDragSource(<div style={{ ...style, opacity }}>{label}</div>)
-	}
+  }
 }
 
-export default DragSource(ItemTypes.NEWCOMPONENT, boxSource, collect)(NewComponent);
+NewComponent = DragSource(ItemTypes.NEWCOMPONENT, componentSource, collect)(NewComponent);
+
+export default connect()(NewComponent);

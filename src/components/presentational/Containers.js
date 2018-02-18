@@ -1,8 +1,22 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
+import SingleContainer from './SingleContainer'
+
+const style = {
+  'min-height': '400px'
+}
  
 const Containers = ({ containers }) => (
   <div className="container">
+      <div style={style}>
+          {containers.map((container, i) => (
+            <SingleContainer
+              index={i}
+              id={container.id}
+              label={container.label}
+            />
+          ))}
+      </div>
   </div>
 )
  
