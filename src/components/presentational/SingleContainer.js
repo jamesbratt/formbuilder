@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { moveContainer } from '../../actions'
 import ItemTypes from '../../ItemTypes'
 import flow from 'lodash/flow';
+import Row from './Row';
 
 const style = {
 	border: '1px dashed gray',
@@ -25,6 +26,13 @@ const singleContainerSource = {
 }
 
 const singleContainerTarget = {
+  drop(props, monitor) {
+    const droppedOn = props.id;
+		return { 
+      parentId: droppedOn,
+      index: props.index 
+    }
+	},
 	hover(props, monitor, component) {
     const dragIndex = monitor.getItem().index
 
@@ -84,21 +92,33 @@ class SingleContainer extends Component {
 		connectDropTarget: PropTypes.func.isRequired,
 		index: PropTypes.number.isRequired,
 		isDragging: PropTypes.bool.isRequired,
-		id: PropTypes.any.isRequired,
+    id: PropTypes.any.isRequired,
+    children: PropTypes.array.isRequired,
 		label: PropTypes.string.isRequired,
 	}
 
 	render() {
 		const {
-			label,
+      label,
+      children,
 			isDragging,
 			connectDragSource,
 			connectDropTarget,
 		} = this.props
-		const opacity = isDragging ? 0 : 1
+    const opacity = isDragging ? 0 : 1
+    
+    let rows = []
+
+    if(children) {
+      children.forEach(child => {
+        rows.push(<Row label={child.label} />)
+      });
+    }
 
 		return connectDragSource(
-			connectDropTarget(<div style={{ ...style, opacity }}>{label}</div>),
+			connectDropTarget(<div style={{ ...style, opacity }}>{label}
+        {rows}
+      </div>),
 		)
 	}
 }

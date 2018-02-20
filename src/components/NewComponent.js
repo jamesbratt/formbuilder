@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { DragSource } from 'react-dnd'
 import { connect } from 'react-redux'
-import { addContainer } from '../actions'
+import { addContainer, addChild } from '../actions'
 import ItemTypes from '../ItemTypes'
 
 const style = {
@@ -23,11 +23,10 @@ const componentSource = {
 	},
 
 	endDrag(props, monitor) {
-    /*const dropResult = monitor.getDropResult()
+    const dropResult = monitor.getDropResult()
     if(dropResult && dropResult.parentId)
-      props.addChild(props.name, [dropResult.parentId, dropResult.index])
+      props.dispatch(addChild(props.name, [dropResult.parentId, dropResult.index]))
     else
-      props.addComponent(props.name);*/
       props.dispatch(addContainer(props.label))
 
     return

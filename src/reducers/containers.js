@@ -10,8 +10,8 @@ const containers = (state = [], action) => {
       }
       
       return  update(state, {
-          $push: [newContainer]
-        })
+        $push: [newContainer]
+      })
 
     case 'MOVE_CONTAINER':
       const dragCard = state[action.dragIndex]

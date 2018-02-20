@@ -13,6 +13,15 @@ export const addContainer = label => {
     label
   }
 }
+
+export const addChild = (label, parent) => {
+  return {
+    type: 'ADD_CHILD',
+    id: uuidv4(),
+    parent: parent[0],
+    label
+  }
+}
  
 export const moveContainer = (dragIndex, hoverIndex) => {
   return {

@@ -6,7 +6,7 @@ const style = {
   minHeight: '400px'
 }
  
-const Containers = ({ containers }) => (
+const Containers = ({ containers, elements }) => (
   <div className="container">
       <div style={style}>
           {containers.map((container, i) => (
@@ -15,6 +15,7 @@ const Containers = ({ containers }) => (
               key={container.id}
               id={container.id}
               label={container.label}
+              children={elements.filter(element => element.parent === container.id)}
             />
           ))}
       </div>
