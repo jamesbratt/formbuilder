@@ -15,7 +15,7 @@ const Containers = ({ containers, elements }) => (
               key={container.id}
               id={container.id}
               label={container.label}
-              children={elements.filter(element => element.parent === container.id)}
+              children={elements[container.id]}
             />
           ))}
       </div>

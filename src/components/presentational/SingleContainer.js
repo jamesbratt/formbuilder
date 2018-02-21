@@ -100,6 +100,7 @@ class SingleContainer extends Component {
 	render() {
 		const {
       label,
+      id,
       children,
 			isDragging,
 			connectDragSource,
@@ -108,15 +109,25 @@ class SingleContainer extends Component {
     const opacity = isDragging ? 0 : 1
     
     let rows = []
+    let containerLabel = label
 
-    if(children) {
-      children.forEach(child => {
-        rows.push(<Row label={child.label} />)
-      });
+    if(children !== undefined) {
+      if(children.length > 0) {
+        containerLabel = ''
+        children.forEach((child, i) => {
+          rows.push(<Row 
+            label={child.label}
+            index={i}
+            key={child.id}
+            parentId={id} 
+            />)
+        });
+      }
     }
 
 		return connectDragSource(
-			connectDropTarget(<div style={{ ...style, opacity }}>{label}
+      connectDropTarget(<div style={{ ...style, opacity }}>
+        {containerLabel}
         {rows}
       </div>),
 		)

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { DragSource } from 'react-dnd'
 import { connect } from 'react-redux'
-import { addContainer, addChild } from '../actions'
+import { addContainer, addChild, addRowKey } from '../actions'
 import ItemTypes from '../ItemTypes'
 
 const style = {
@@ -15,6 +15,13 @@ const style = {
 	float: 'left',
 }
 
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 || 0, v = c === 'x' ? r : (r & 0x3 || 0x8);
+    return v.toString(16);
+  });
+}
+
 const componentSource = {
 	beginDrag(props) {
 		return {
@@ -24,11 +31,13 @@ const componentSource = {
 
 	endDrag(props, monitor) {
     const dropResult = monitor.getDropResult()
-    if(dropResult && dropResult.parentId)
-      props.dispatch(addChild(props.name, [dropResult.parentId, dropResult.index]))
-    else
-      props.dispatch(addContainer(props.label))
-
+    const NewContainerId = uuidv4()
+    if(dropResult && dropResult.parentId) {
+      props.dispatch(addChild(props.name, [dropResult.parentId, dropResult.index], NewContainerId))
+    } else {
+      props.dispatch(addContainer(props.label, NewContainerId))
+      props.dispatch(addRowKey(NewContainerId))
+    }
     return
 	},
 }

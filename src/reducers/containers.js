@@ -16,8 +16,8 @@ const containers = (state = [], action) => {
     case 'MOVE_CONTAINER':
       const dragCard = state[action.dragIndex]
       return update(state, {
-          $splice: [[action.dragIndex, 1], [action.hoverIndex, 0, dragCard]],
-        })
+        $splice: [[action.dragIndex, 1], [action.hoverIndex, 0, dragCard]],
+      })
 
     default:
       return state
