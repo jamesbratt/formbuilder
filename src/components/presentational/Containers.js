@@ -6,7 +6,7 @@ const style = {
   minHeight: '400px'
 }
  
-const Containers = ({ containers, elements }) => (
+const Containers = ({ containers, elements, columns }) => (
   <div className="container">
       <div style={style}>
           {containers.map((container, i) => (
@@ -16,6 +16,7 @@ const Containers = ({ containers, elements }) => (
               id={container.id}
               label={container.label}
               children={elements[container.id]}
+              columns={columns}
             />
           ))}
       </div>

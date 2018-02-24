@@ -23,6 +23,22 @@ export const addRowKey =  (parentId) => {
     id: parentId,
   }
 }
+
+export const addColumnKey =  (parentId) => {
+  return {
+    type: 'ADD_COLUMN_KEY',
+    id: parentId,
+  }
+}
+
+export const addColumn = (label, parent, id) => {
+  return {
+    type: 'ADD_COLUMN',
+    id,
+    parent: parent[0],
+    label
+  }  
+}
  
 export const moveContainer = (dragIndex, hoverIndex) => {
   return {

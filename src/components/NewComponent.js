@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { DragSource } from 'react-dnd'
 import { connect } from 'react-redux'
-import { addContainer, addChild, addRowKey } from '../actions'
+import { addContainer, addChild, addRowKey, addColumn, addColumnKey } from '../actions'
 import ItemTypes from '../ItemTypes'
 
 const style = {
@@ -33,7 +33,12 @@ const componentSource = {
     const dropResult = monitor.getDropResult()
     const NewContainerId = uuidv4()
     if(dropResult && dropResult.parentId) {
-      props.dispatch(addChild(props.name, [dropResult.parentId, dropResult.index], NewContainerId))
+      if(dropResult.elementType === 'row') {
+        props.dispatch(addColumn(props.name, [dropResult.parentId, dropResult.index], NewContainerId))
+      } else {
+        props.dispatch(addChild(props.name, [dropResult.parentId, dropResult.index], NewContainerId))
+        props.dispatch(addColumnKey(NewContainerId))
+      }
     } else {
       props.dispatch(addContainer(props.label, NewContainerId))
       props.dispatch(addRowKey(NewContainerId))

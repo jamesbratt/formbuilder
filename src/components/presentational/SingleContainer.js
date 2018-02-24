@@ -11,7 +11,8 @@ import Row from './Row';
 const style = {
 	border: '1px dashed gray',
 	padding: '0.5rem 1rem',
-	marginBottom: '.5rem',
+  marginBottom: '.5rem',
+  marginTop: '.5rem',
 	backgroundColor: 'white',
 	cursor: 'move',
 }
@@ -27,6 +28,10 @@ const singleContainerSource = {
 
 const singleContainerTarget = {
   drop(props, monitor) {
+		const hasDroppedOnChild = monitor.didDrop()
+		if (hasDroppedOnChild) {
+			return
+		}
     const droppedOn = props.id;
 		return { 
       parentId: droppedOn,
@@ -94,6 +99,7 @@ class SingleContainer extends Component {
 		isDragging: PropTypes.bool.isRequired,
     id: PropTypes.any.isRequired,
     children: PropTypes.array.isRequired,
+    columns: PropTypes.object.isRequired,
 		label: PropTypes.string.isRequired,
 	}
 
@@ -102,6 +108,7 @@ class SingleContainer extends Component {
       label,
       id,
       children,
+      columns,
 			isDragging,
 			connectDragSource,
 			connectDropTarget,
@@ -119,7 +126,9 @@ class SingleContainer extends Component {
             label={child.label}
             index={i}
             key={child.id}
-            parentId={id} 
+            id={child.id}
+            parentId={id}
+            children={columns[child.id]}
             />)
         });
       }

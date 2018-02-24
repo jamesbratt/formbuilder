@@ -6,11 +6,13 @@ import ItemTypes from '../../ItemTypes'
 import { moveRow } from '../../actions'
 import { connect } from 'react-redux'
 import flow from 'lodash/flow';
+import Column from './Column';
  
 const style = {
 	border: '1px dashed gray',
 	padding: '0.5rem 1rem',
-	marginBottom: '.5rem',
+  marginBottom: '.5rem',
+  marginTop: '.5rem',
 	backgroundColor: 'white',
   cursor: 'move',
   marginLeft: '.5rem',
@@ -28,6 +30,14 @@ const rowSource = {
 }
 
 const rowTarget = {
+  drop(props, monitor) {
+    const droppedOn = props.id;
+		return { 
+      parentId: droppedOn,
+      elementType: 'row',
+      index: props.index 
+    }
+	},
 	hover(props, monitor, component) {
     const dragIndex = monitor.getItem().index
 
@@ -91,28 +101,52 @@ class Row extends Component {
     label: PropTypes.string.isRequired,
     connectDragSource: PropTypes.func.isRequired,
 		connectDropTarget: PropTypes.func.isRequired,
-		index: PropTypes.number.isRequired,
+    index: PropTypes.number.isRequired,
+    id: PropTypes.any.isRequired,
+    children: PropTypes.array,
 		isDragging: PropTypes.bool.isRequired,
   }
 
   render() {
 		const {
       label,
+      id,
+      children,
       isDragging,
 			connectDragSource,
 			connectDropTarget,
     } = this.props
     const opacity = isDragging ? 0 : 1
+
+    let columns = []
+    let rowLabel = label
+
+    if(children !== undefined) {
+      if(children.length > 0) {
+        rowLabel = ''
+        children.forEach((child, i) => {
+          columns.push(<Column 
+            label={child.label}
+            index={i}
+            key={child.id}
+            id={child.id}
+            parentId={id}
+            />)
+        });
+      }
+    }
+
 		return connectDragSource(
       connectDropTarget(<div style={{ ...style, opacity }} className="row">
-        {label}
+        {rowLabel}
+        {columns}
       </div>),
 		)
   }
 }
 
 Row = flow(
-	DropTarget(ItemTypes.ROW, rowTarget, connect => ({
+	DropTarget([ItemTypes.ROW, ItemTypes.NEWCOMPONENT], rowTarget, connect => ({
 		connectDropTarget: connect.dropTarget()
 	})),
 	DragSource(ItemTypes.ROW, rowSource, (connect, monitor) => ({
@@ -122,3 +156,4 @@ Row = flow(
 )(Row);
  
 export default connect()(Row);
+console.log('registered');
