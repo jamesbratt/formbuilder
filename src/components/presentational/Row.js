@@ -19,6 +19,10 @@ const style = {
   marginRight: '.5rem',
 }
 
+const mapStateToProps = state => {
+  return state
+}
+
 const rowSource = {
 	beginDrag(props) {
 		return {
@@ -31,6 +35,10 @@ const rowSource = {
 
 const rowTarget = {
   drop(props, monitor) {
+		const hasDroppedOnChild = monitor.didDrop()
+		if (hasDroppedOnChild) {
+			return
+		}
     const droppedOn = props.id;
 		return { 
       parentId: droppedOn,
@@ -121,10 +129,10 @@ class Row extends Component {
     let columns = []
     let rowLabel = label
 
-    if(children !== undefined) {
-      if(children.length > 0) {
+    if(this.props.columns[id] !== undefined) {
+      if(this.props.columns[id].length > 0) {
         rowLabel = ''
-        children.forEach((child, i) => {
+        this.props.columns[id].forEach((child, i) => {
           columns.push(<Column 
             label={child.label}
             index={i}
@@ -155,5 +163,6 @@ Row = flow(
 	}))
 )(Row);
  
-export default connect()(Row);
-console.log('registered');
+export default connect(
+  mapStateToProps
+)(Row);

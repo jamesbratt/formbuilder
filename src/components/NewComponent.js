@@ -11,8 +11,8 @@ const style = {
 	padding: '0.5rem 1rem',
 	marginRight: '1.5rem',
 	marginBottom: '1.5rem',
-	cursor: 'move',
-	float: 'left',
+  cursor: 'move',
+  display: 'block',
 }
 
 function uuidv4() {
@@ -35,6 +35,10 @@ const componentSource = {
     if(dropResult && dropResult.parentId) {
       if(dropResult.elementType === 'row') {
         props.dispatch(addColumn(props.name, [dropResult.parentId, dropResult.index], NewContainerId))
+        props.dispatch(addRowKey(NewContainerId))
+      } else if(dropResult.elementType === 'column') {
+        props.dispatch(addChild(props.name, [dropResult.parentId, dropResult.index], NewContainerId))
+        props.dispatch(addColumnKey(NewContainerId))
       } else {
         props.dispatch(addChild(props.name, [dropResult.parentId, dropResult.index], NewContainerId))
         props.dispatch(addColumnKey(NewContainerId))

@@ -8,12 +8,20 @@ import NewComponent from './components/NewComponent'
 class SortableSimple extends Component {
 	render() {
 		return (
-			<div className="container">
-				<Layout />
-        <NewComponent label="Add Container" name="Container" />
-        <NewComponent label="Add Row" name="Row" />
-        <NewComponent label="Add Column" name="Column" />
-			</div>
+      <div className="containerfluid">
+        <div className="row">
+          <div className="col-md-3">
+            <NewComponent label="Add Container" name="Container" />
+            <NewComponent label="Add Row" name="Row" />
+            <NewComponent label="Add Column" name="Column" />
+          </div>
+          <div className="col-md-9">
+            <div className="container">
+				      <Layout />
+		    	  </div>
+          </div>
+        </div>
+      </div>
 		)
 	}
 }
