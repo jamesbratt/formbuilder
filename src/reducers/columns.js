@@ -20,6 +20,14 @@ const columns = (state = {}, action) => {
         $merge: {[action.id]: []}
       })
 
+    case 'MOVE_COLUMN':
+      const dragCard = state[action.parentId][action.dragIndex]
+      return update(state, {
+        [action.parentId]: {
+          $splice: [[action.dragIndex, 1], [action.hoverIndex, 0, dragCard]],
+        }
+      })
+
     default:
       return state
   }

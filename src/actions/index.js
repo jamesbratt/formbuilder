@@ -56,3 +56,12 @@ export const moveRow = (dragIndex, hoverIndex, parentId) => {
     parentId
   }
 }
+
+export const moveColumn = (dragIndex, hoverIndex, parentId) => {
+  return {
+    type: 'MOVE_COLUMN',
+    dragIndex,
+    hoverIndex,
+    parentId
+  }
+}

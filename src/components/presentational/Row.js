@@ -9,8 +9,9 @@ import flow from 'lodash/flow';
 import Column from './Column';
  
 const style = {
-	border: '1px dashed gray',
-	padding: '0.5rem 1rem',
+	border: '1px dashed blue',
+  padding: '0.5rem 1rem',
+  paddingBottom: '50px',
   marginBottom: '.5rem',
   marginTop: '.5rem',
 	backgroundColor: 'white',
@@ -56,10 +57,9 @@ const rowTarget = {
     } else {  
       const hoverIndex = props.index
 
-     // Don't replace items with themselves
-     if (monitor.getItem().parentId !== props.parentId) {
-      return
-    }
+      if (monitor.getItem().parentId !== props.parentId) {
+        return
+      }
 
       // Don't replace items with themselves
       if (dragIndex === hoverIndex) {
@@ -146,7 +146,6 @@ class Row extends Component {
 
 		return connectDragSource(
       connectDropTarget(<div style={{ ...style, opacity }} className="row">
-        {rowLabel}
         {columns}
       </div>),
 		)

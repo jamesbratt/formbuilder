@@ -9,12 +9,13 @@ import flow from 'lodash/flow';
 import Row from './Row';
 
 const style = {
-	border: '1px dashed gray',
-	padding: '0.5rem 1rem',
+	border: '1px dashed green',
+  padding: '0.5rem 1rem',
+  paddingBottom: '50px',
   marginBottom: '.5rem',
   marginTop: '.5rem',
 	backgroundColor: 'white',
-	cursor: 'move',
+  cursor: 'move',
 }
 
 const singleContainerSource = {
@@ -136,7 +137,6 @@ class SingleContainer extends Component {
 
 		return connectDragSource(
       connectDropTarget(<div style={{ ...style, opacity }}>
-        {containerLabel}
         {rows}
       </div>),
 		)

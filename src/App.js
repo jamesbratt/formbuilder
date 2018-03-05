@@ -8,7 +8,7 @@ import NewComponent from './components/NewComponent'
 class SortableSimple extends Component {
 	render() {
 		return (
-      <div className="containerfluid">
+      <div className="container-fluid">
         <div className="row">
           <div className="col-md-3">
             <NewComponent label="Add Container" name="Container" />

@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { findDOMNode } from 'react-dom'
 import { DragSource, DropTarget } from 'react-dnd'
 import ItemTypes from '../../ItemTypes'
+import { moveColumn } from '../../actions'
 import { connect } from 'react-redux'
 import flow from 'lodash/flow';
 import Row from './Row';
  
 const style = {
-	border: '1px dashed gray',
-	padding: '0.5rem 1rem',
+	border: '1px dashed red',
+  padding: '0.5rem 1rem',
+  paddingBottom: '50px',
 	backgroundColor: 'white',
   cursor: 'move',
 }
@@ -41,8 +44,58 @@ const columnTarget = {
     }
 	},
 	hover(props, monitor, component) {
-    return
-	},
+    const dragIndex = monitor.getItem().index
+    // If an item has no index it must be new
+    if(dragIndex === undefined) {
+      return
+  
+    } else {  
+      const hoverIndex = props.index
+
+      if (monitor.getItem().parentId !== props.parentId) {
+        return
+      }
+
+      // Don't replace items with themselves
+      if (dragIndex === hoverIndex) {
+        return
+      }
+
+      // Determine rectangle on screen
+      const hoverBoundingRect = findDOMNode(component).getBoundingClientRect()
+
+      // Get vertical middle
+      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      
+      // Get horizontal middle
+      const hoverMiddleX = (hoverBoundingRect.right - hoverBoundingRect.left) / 2;
+
+      // Determine mouse position
+      const clientOffset = monitor.getClientOffset();
+
+      // Get pixels to the top
+      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+
+      // Get pixels to the left
+      const hoverClientX = clientOffset.x - hoverBoundingRect.left;
+
+      const upwards = dragIndex > hoverIndex && hoverClientY > hoverMiddleY;
+      const downwards = dragIndex < hoverIndex && hoverClientY < hoverMiddleY;
+      const leftwards = dragIndex > hoverIndex && hoverClientX > hoverMiddleX;
+      const rightwards = dragIndex < hoverIndex && hoverClientX < hoverMiddleX;
+
+      if (upwards && (leftwards || rightwards)){
+        return;
+      }
+
+      if (downwards && (leftwards || rightwards)){
+        return;
+      }
+
+      props.dispatch(moveColumn(dragIndex, hoverIndex, props.parentId))
+      monitor.getItem().index = hoverIndex
+    }
+  }
 }
 
 class Column extends Component {
@@ -85,8 +138,7 @@ class Column extends Component {
     }
 
 		return connectDragSource(
-      connectDropTarget(<div style={{ ...style, opacity }} className="col-md-12">
-        {columnLabel}
+      connectDropTarget(<div style={{ ...style, opacity }} className="col-md-6">
         {childRows}
       </div>),
 		)
