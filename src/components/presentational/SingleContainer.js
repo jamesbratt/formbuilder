@@ -36,6 +36,7 @@ const singleContainerTarget = {
     const droppedOn = props.id;
 		return { 
       parentId: droppedOn,
+      elementType: 'container',
       index: props.index 
     }
 	},

@@ -32,8 +32,31 @@ const componentSource = {
 	endDrag(props, monitor) {
     const dropResult = monitor.getDropResult()
     const NewContainerId = uuidv4()
+    const NewComponentName = props.name
+    let NewComponentContainerType = 'root'
+
     if(dropResult && dropResult.parentId) {
-      if(dropResult.elementType === 'row') {
+
+      if(NewComponentName === 'row' && dropResult.elementType === 'container') {
+        props.dispatch(addChild(props.name, [dropResult.parentId, dropResult.index], NewContainerId))
+        props.dispatch(addColumnKey(NewContainerId))
+        return
+      }
+
+      if(NewComponentName === 'column' && dropResult.elementType === 'row') {
+        props.dispatch(addColumn(props.name, [dropResult.parentId, dropResult.index], NewContainerId))
+        props.dispatch(addRowKey(NewContainerId))
+        return
+      }
+
+      if(NewComponentName === 'row' && dropResult.elementType === 'column') {
+        props.dispatch(addChild(props.name, [dropResult.parentId, dropResult.index], NewContainerId))
+        props.dispatch(addColumnKey(NewContainerId))
+        return
+
+      }
+
+      /*if(dropResult.elementType === 'row') {
         props.dispatch(addColumn(props.name, [dropResult.parentId, dropResult.index], NewContainerId))
         props.dispatch(addRowKey(NewContainerId))
       } else if(dropResult.elementType === 'column') {
@@ -45,8 +68,17 @@ const componentSource = {
       }
     } else {
       props.dispatch(addContainer(props.label, NewContainerId))
+      props.dispatch(addRowKey(NewContainerId))*/
+    } else if(NewComponentName === 'container') {
+      props.dispatch(addContainer(props.label, NewContainerId))
       props.dispatch(addRowKey(NewContainerId))
+      return
     }
+
+    if(dropResult)
+      NewComponentContainerType = dropResult.elementType
+  
+    alert('Oops! You cannot place a ' + NewComponentName + ' inside a ' + NewComponentContainerType)
     return
 	},
 }

@@ -11,9 +11,9 @@ class SortableSimple extends Component {
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-3">
-            <NewComponent label="Add Container" name="Container" />
-            <NewComponent label="Add Row" name="Row" />
-            <NewComponent label="Add Column" name="Column" />
+            <NewComponent label="Add Container" name="container" />
+            <NewComponent label="Add Row" name="row" />
+            <NewComponent label="Add Column" name="column" />
           </div>
           <div className="col-md-9">
             <div className="container">
