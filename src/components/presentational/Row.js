@@ -139,6 +139,7 @@ class Row extends Component {
             key={child.id}
             id={child.id}
             parentId={id}
+            column_length={child.column_length}
             />)
         });
       }

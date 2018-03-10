@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { findDOMNode } from 'react-dom'
 import { DragSource, DropTarget } from 'react-dnd'
 import ItemTypes from '../../ItemTypes'
-import { moveColumn } from '../../actions'
+import { moveColumn, getProperty } from '../../actions'
 import { connect } from 'react-redux'
 import flow from 'lodash/flow';
 import Row from './Row';
@@ -105,7 +105,13 @@ class Column extends Component {
 		connectDropTarget: PropTypes.func.isRequired,
     index: PropTypes.number.isRequired,
     id: PropTypes.any.isRequired,
+    column_length: PropTypes.string.isRequired,
 		isDragging: PropTypes.bool.isRequired,
+  }
+
+  showProperties(e) {
+    e.stopPropagation();
+    this.props.dispatch(getProperty(this.props.parentId, this.props.id, 'column'))
   }
 
   render() {
@@ -114,7 +120,8 @@ class Column extends Component {
       isDragging,
       id,
 			connectDragSource,
-			connectDropTarget,
+      connectDropTarget,
+      column_length
     } = this.props
     const opacity = isDragging ? 0 : 1
 
@@ -137,8 +144,10 @@ class Column extends Component {
       }
     }
 
+    const colClass = "col-md-"+ column_length;
+
 		return connectDragSource(
-      connectDropTarget(<div style={{ ...style, opacity }} className="col-md-6">
+      connectDropTarget(<div style={{ ...style, opacity }} onClick={this.showProperties.bind(this)} className={colClass}>
         {childRows}
       </div>),
 		)

@@ -65,3 +65,12 @@ export const moveColumn = (dragIndex, hoverIndex, parentId) => {
     parentId
   }
 }
+
+export const getProperty = (key, id, elementType) => {
+  return {
+    type: 'GET_PROPERTY',
+    key,
+    id,
+    elementType
+  }
+}

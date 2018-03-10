@@ -6,7 +6,8 @@ const columns = (state = {}, action) => {
       const newColumn = {
         id: action.id,
         label: action.label,
-        parent: action.parent
+        parent: action.parent,
+        column_length: '3'
       }
       
       return  update(state, {
