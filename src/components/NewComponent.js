@@ -56,19 +56,6 @@ const componentSource = {
 
       }
 
-      /*if(dropResult.elementType === 'row') {
-        props.dispatch(addColumn(props.name, [dropResult.parentId, dropResult.index], NewContainerId))
-        props.dispatch(addRowKey(NewContainerId))
-      } else if(dropResult.elementType === 'column') {
-        props.dispatch(addChild(props.name, [dropResult.parentId, dropResult.index], NewContainerId))
-        props.dispatch(addColumnKey(NewContainerId))
-      } else {
-        props.dispatch(addChild(props.name, [dropResult.parentId, dropResult.index], NewContainerId))
-        props.dispatch(addColumnKey(NewContainerId))
-      }
-    } else {
-      props.dispatch(addContainer(props.label, NewContainerId))
-      props.dispatch(addRowKey(NewContainerId))*/
     } else if(NewComponentName === 'container') {
       props.dispatch(addContainer(props.label, NewContainerId))
       props.dispatch(addRowKey(NewContainerId))

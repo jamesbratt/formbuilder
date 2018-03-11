@@ -39,6 +39,17 @@ export const addColumn = (label, parent, id) => {
     label
   }  
 }
+
+export const updateColumn = (key, value, parent, id, index) => {
+  return {
+    type: 'UPDATE_COLUMN',
+    key,
+    value,
+    parent,
+    id,
+    index
+  }  
+}
  
 export const moveContainer = (dragIndex, hoverIndex) => {
   return {

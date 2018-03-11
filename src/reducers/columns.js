@@ -21,6 +21,20 @@ const columns = (state = {}, action) => {
         $merge: {[action.id]: []}
       })
 
+    case 'UPDATE_COLUMN':
+      const column = {
+        id: action.id,
+        label: 'column',
+        parent: action.parent,
+        column_length: action.value,       
+      }
+      const index = parseInt(action.index)
+      return  update(state, {
+        [action.parent]: {
+          [index]: {$set: column}
+        }
+      })
+
     case 'MOVE_COLUMN':
       const dragCard = state[action.parentId][action.dragIndex]
       return update(state, {

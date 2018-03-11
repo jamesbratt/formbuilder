@@ -5,23 +5,28 @@ import './assets/App.css';
 import Layout from './components/Layout'
 import { connect } from 'react-redux'
 import NewComponent from './components/NewComponent'
+import EditComponent from './components/EditComponent'
 
 const mapStateToProps = state => {
   return state
 }
 
 class SortableSimple extends Component {
+
 	render() {
 
-    let column = null
+    let currentColumns = {column: [], index: null}
 
     if(this.props.properties.activeElement) {
       const columnId = this.props.properties.activeElement.id
       const columnSet = this.props.columns[this.props.properties.activeElement.key]
-      const col = columnSet.filter(function(column) {
-        return column.id == columnId;
+
+      columnSet.forEach((column, index) => {
+        if(column.id === columnId) {
+          currentColumns.column.push(column)
+          currentColumns.index = index
+        }
       });
-      column = col
     }
 		return (
       <div className="container-fluid">
@@ -37,6 +42,7 @@ class SortableSimple extends Component {
 		    	  </div>
           </div>
           <div className="col-md-2">
+            <EditComponent component={currentColumns.column} componentIndex={currentColumns.index} />
           </div>
         </div>
       </div>
