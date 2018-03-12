@@ -24,12 +24,18 @@ class EditComponent extends Component {
           options.push(<option key={i} value={i}>{i}</option>)
           
       }
-      componentForm = <select className="form-control" value={this.props.component[0].column_length} onChange={this.updateProperties}>
+      componentForm = (<div><label>Select column width</label>
+      <select className="form-control" value={this.props.component[0].column_length} onChange={this.updateProperties}>
         {options}
-      </select>
+      </select></div>)
     }
   
-		return <div>{componentForm}</div>
+    return <div class="card">
+      <h5 class="card-header">Edit Element Properties</h5>
+      <div class="card-body">
+        {componentForm}
+      </div>
+    </div>
   }
 }
 

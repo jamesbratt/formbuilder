@@ -8,12 +8,13 @@ export const addContainer = (label, id) => {
   }
 }
 
-export const addChild = (label, parent, id) => {
+export const addChild = (label, parent, id, uiType) => {
   return {
     type: 'ADD_CHILD',
     id,
     parent: parent[0],
-    label
+    label,
+    uiType
   }
 }
 

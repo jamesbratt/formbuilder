@@ -6,13 +6,7 @@ import { addContainer, addChild, addRowKey, addColumn, addColumnKey } from '../a
 import ItemTypes from '../ItemTypes'
 
 const style = {
-	border: '1px dashed gray',
-	backgroundColor: 'white',
-	padding: '0.5rem 1rem',
-	marginRight: '1.5rem',
-	marginBottom: '1.5rem',
   cursor: 'move',
-  display: 'block',
 }
 
 function uuidv4() {
@@ -53,7 +47,11 @@ const componentSource = {
         props.dispatch(addChild(props.name, [dropResult.parentId, dropResult.index], NewContainerId))
         props.dispatch(addColumnKey(NewContainerId))
         return
+      }
 
+      if(NewComponentName === 'ui-element' && dropResult.elementType === 'column') {
+        props.dispatch(addChild(props.name, [dropResult.parentId, dropResult.index], NewContainerId, props.uiType))
+        return
       }
 
     } else if(NewComponentName === 'container') {
@@ -80,6 +78,7 @@ function collect(connect, monitor) {
 class NewComponent extends Component {
 	static propTypes = {
     name: PropTypes.string.isRequired,
+    uiType: PropTypes.string,
     label: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
   }
@@ -89,7 +88,7 @@ class NewComponent extends Component {
 		const { label } = this.props
 		const opacity = isDragging ? 0.4 : 1
 
-		return connectDragSource(<div style={{ ...style, opacity }}>{label}</div>)
+		return connectDragSource(<li className="list-group-item" style={{ ...style, opacity }}>{label}</li>)
   }
 }
 

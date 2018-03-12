@@ -6,7 +6,8 @@ const elements = (state = {}, action) => {
       const newChild = {
         id: action.id,
         label: action.label,
-        parent: action.parent
+        parent: action.parent,
+        uiType: action.uiType !== null ? action.uiType : null
       }
       
       return  update(state, {

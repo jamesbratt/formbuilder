@@ -7,15 +7,17 @@ import { moveRow } from '../../actions'
 import { connect } from 'react-redux'
 import flow from 'lodash/flow';
 import Column from './Column';
+import RowTemplate from './RowTemplate';
+import TextInputTemplate from './TextInputTemplate';
  
 const style = {
-	border: '1px dashed blue',
+	border: '1px dashed gray',
   padding: '0.5rem 1rem',
-  paddingBottom: '50px',
   marginBottom: '.5rem',
   marginTop: '.5rem',
 	backgroundColor: 'white',
   cursor: 'move',
+  minHeight: '50px',
   marginLeft: '.5rem',
   marginRight: '.5rem',
 }
@@ -145,10 +147,19 @@ class Row extends Component {
       }
     }
 
+    let template = null
+
+    if(label === 'row') {
+      template = <RowTemplate columns={columns} opacity={opacity} />
+    }
+
+    if(label === 'ui-element') {
+      template = <TextInputTemplate opacity={opacity} />
+    }
+
 		return connectDragSource(
-      connectDropTarget(<div style={{ ...style, opacity }} className="row">
-        {columns}
-      </div>),
+      connectDropTarget(
+        <div style={{... style, opacity}}>{template}</div>),
 		)
   }
 }

@@ -32,14 +32,20 @@ class SortableSimple extends Component {
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-2">
-            <NewComponent label="Add Container" name="container" />
-            <NewComponent label="Add Row" name="row" />
-            <NewComponent label="Add Column" name="column" />
+            <div className="card">
+              <div className="card-header">
+                Toolbox
+              </div>
+              <ul className="list-group list-group-flush">
+                <NewComponent label="Add Container" name="container" />
+                <NewComponent label="Add Row" name="row" />
+                <NewComponent label="Add Column" name="column" />
+                <NewComponent label="Add Text Input" name="ui-element" uiType="text" />
+              </ul>
+            </div>          
           </div>
           <div className="col-md-8">
-            <div className="container">
-				      <Layout />
-		    	  </div>
+            <Layout />
           </div>
           <div className="col-md-2">
             <EditComponent component={currentColumns.column} componentIndex={currentColumns.index} />
