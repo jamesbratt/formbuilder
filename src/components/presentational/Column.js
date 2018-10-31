@@ -145,6 +145,11 @@ class Column extends Component {
     }
 
     const colClass = "col-md-"+ column_length;
+    if (this.props.properties.activeElement && this.props.properties.activeElement.id === this.props.id) {
+      style.backgroundColor = 'grey';
+    } else {
+      style.backgroundColor = 'white';
+    };
 
 		return connectDragSource(
       connectDropTarget(<div style={{ ...style, opacity }} onClick={this.showProperties.bind(this)} className={colClass}>

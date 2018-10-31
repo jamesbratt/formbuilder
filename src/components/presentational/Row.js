@@ -13,6 +13,7 @@ import TextInputTemplate from './TextInputTemplate';
 const style = {
 	border: '1px dashed gray',
   padding: '0.5rem 1rem',
+  paddingBottom: '2rem',
   marginBottom: '.5rem',
   marginTop: '.5rem',
 	backgroundColor: 'white',
@@ -129,7 +130,8 @@ class Row extends Component {
     const opacity = isDragging ? 0 : 1
 
     let columns = []
-    let rowLabel = label
+    let rowLabel = label;
+    let startText = label === 'row' ? 'Drag in columns' : null;
 
     if(this.props.columns[id] !== undefined) {
       if(this.props.columns[id].length > 0) {
@@ -144,6 +146,8 @@ class Row extends Component {
             column_length={child.column_length}
             />)
         });
+
+        startText = null;
       }
     }
 
@@ -159,7 +163,10 @@ class Row extends Component {
 
 		return connectDragSource(
       connectDropTarget(
-        <div style={{... style, opacity}}>{template}</div>),
+        <div style={{... style, opacity}}>
+          {startText}
+          {template}
+        </div>),
 		)
   }
 }

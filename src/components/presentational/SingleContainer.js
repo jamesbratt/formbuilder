@@ -118,7 +118,8 @@ class SingleContainer extends Component {
     const opacity = isDragging ? 0 : 1
     
     let rows = []
-    let containerLabel = label
+    let containerLabel = label;
+    let startText = 'Drag in a row to start';
 
     if(children !== undefined) {
       if(children.length > 0) {
@@ -133,12 +134,15 @@ class SingleContainer extends Component {
             children={columns[child.id]}
             />)
         });
+
+        startText = 'Drag on another row';
       }
     }
 
 		return connectDragSource(
       connectDropTarget(<div style={{ ...style, opacity }}>
         {rows}
+        { startText }
       </div>),
 		)
 	}
