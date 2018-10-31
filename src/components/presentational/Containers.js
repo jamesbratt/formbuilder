@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import SingleContainer from './SingleContainer'
 
 const style = {
-  minHeight: '400px'
+  height: '100%'
 }
  
 const Containers = ({ containers, elements, columns }) => (
-  <div className="container">
+  <div style={style} className="container">
       <div style={style}>
           {containers.map((container, i) => (
             <SingleContainer

@@ -16,6 +16,7 @@ const style = {
   marginTop: '.5rem',
 	backgroundColor: 'white',
   cursor: 'move',
+  height: '100%',
 }
 
 const singleContainerSource = {

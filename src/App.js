@@ -8,6 +8,10 @@ import NewComponent from './components/NewComponent'
 import EditComponent from './components/EditComponent'
 import { addContainer, addRowKey } from './actions'
 
+const style = {
+  height: '100%'
+}
+
 function uuidv4() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
     var r = Math.random() * 16 || 0, v = c === 'x' ? r : (r & 0x3 || 0x8);
@@ -73,13 +77,13 @@ class SortableSimple extends Component {
       });
     }
 		return (
-      <div className="container-fluid">
+      <div style={style} className="container-fluid">
         <div className="row">
           <div className="col-md-12">
             <Info />
           </div>
         </div>
-        <div className="row">
+        <div style={style} className="row">
           <div className="col-md-2">
             <div className="card">
               <div className="card-header">
